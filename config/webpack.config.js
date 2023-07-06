@@ -4,12 +4,10 @@ const nodeExternals = require('webpack-node-externals')
 module.exports = {
   target: 'node',
   mode: 'development',
-  entry: {
-    server: './src/server/index.js',
-  },
+  entry: './src/server/index.js',
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, '../build/')
+    filename: 'server.bundle.js',
+    path: path.resolve(__dirname, '../build/server')
   },
   resolve: {
     extensions: ['.js', '.vue']

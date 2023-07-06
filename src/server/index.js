@@ -1,12 +1,18 @@
 import { renderToString } from '@vue/server-renderer'
 import { createApp } from '../app'
-
+import createRouter from "../router/index";
+import { createMemoryHistory } from "vue-router";
 const express = require('express')
 
 const app = express()
 app.use(express.static('build'))
 app.get('/', async (req, res) => {
   const app = createApp()
+  // 安装路由
+  const router = createRouter(createMemoryHistory());
+  app.use(router);
+  await router.push(req.url || "/"); // 跳转首页
+  await router.isReady(); // 在客户端 和服务端我们都需要 等待路由器 先解析 异步路由组件
   const htmlStr = await renderToString(app)
   res.send(`
   <!DOCTYPE html>
@@ -22,7 +28,7 @@ app.get('/', async (req, res) => {
     <div id="app">
     ${htmlStr}
     </div>
-    <script src="/client.bundle.js"></script>
+    <script src="/client/client.bundle.js"></script>
   </body>
   </html>
   `)
