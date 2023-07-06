@@ -1,11 +1,12 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
+const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 module.exports = {
-  target: 'node',
+  target: 'web',
   mode: 'development',
   entry: {
-    server: './src/server/index.js',
+    client: './src/client/index.js'
   },
   output: {
     filename: '[name].bundle.js',
@@ -31,10 +32,14 @@ module.exports = {
   },
    
   
-  externals: [
-    nodeExternals()
-  ],
+  // externals: [
+  //   nodeExternals()
+  // ],
   plugins: [
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false,
+    }),
     new VueLoaderPlugin()
   ]
 }

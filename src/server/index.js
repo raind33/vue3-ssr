@@ -4,7 +4,7 @@ import { createApp } from '../app'
 const express = require('express')
 
 const app = express()
-
+app.use(express.static('build'))
 app.get('/', async (req, res) => {
   const app = createApp()
   const htmlStr = await renderToString(app)
@@ -19,13 +19,16 @@ app.get('/', async (req, res) => {
   </head>
   <body>
     <div>vue3 server render</div>
-    <div>${htmlStr}</div>
+    <div id="app">
+    ${htmlStr}
+    </div>
+    <script src="/client.bundle.js"></script>
   </body>
   </html>
   `)
 
 })
-app.listen(3000, () => {
+app.listen(3009, () => {
   console.log('server is running port 3000....')
 
 })
